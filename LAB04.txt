@@ -1,0 +1,67 @@
+1. ------------------------
+CREATE DATABASE rental;
+
+2. ------------------------
+ 1) 
+
+SHOW TABLES;
+CREATE TABLE dvd(dvd_id INT(11) UNSIGNED AUTO_INCREMENT,
+                 title VARCHAR(255),
+  		 production_year YEAR,
+		 PRIMARY KEY(dvd_id));
+DESCRIBE dvd;
+ 2)
+
+SHOW TABLES;
+CREATE TABLE customer(customer_id INT(11) SIGNED AUTO_INCREMENT,
+		      first_name VARCHAR(255),
+ 		      passport_code INT(11),
+		      last_name VARCHAR(255),
+		      registration_date YEAR,
+		      PRIMARY KEY (customer_id));
+DESCRIBE customer;
+ 3)
+
+SHOW TABLES;
+CREATE TABLE offer(offer_id INT(11) UNSIGNED AUTO_INCREMENT,
+		   PRIMARY KEY(offer_id))
+		   SELECT dvd_id, customer FROM dvd, customer;
+ALTER TABLE offer ADD COLUMN offer_date DATE;
+ALTER TABLE offer ADD return_date DATE;
+
+4. ------------------------
+
+INSERT INTO dvd(title, production_year)
+VALUES
+('INCEPTION', '2010'),
+('12 Chairs', '1990'),
+('Star Wars', '2008'),
+('A Speech of a king', '2010'),
+('How to train your dragon', '2010');
+
+INSERT INTO customer(first_name, last_name, passport_code)
+VALUES
+('Johnny', 'Cash', 12543),
+('Abraham', 'Lincoln', 578934),
+('Philip', 'Marsh', 789178),
+('Elvis', 'Presley', 781829),
+('Alexey', 'Navalny', 132897);
+UPDATE customer SET registration_date = NOW() WHERE customer_id > 0;
+
+INSERT INTO offer(customer_id, dvd_id, offer_date)
+VALUES
+(2, 3, NOW()),
+(1, 4, NOW()),
+(5, 5, NOW()),
+(4, 1, NOW()),
+(3, 2, NOW());
+
+4. -----------------------------
+
+SELECT title FROM dvd WHERE production_year = '2010' ORDER BY title ASC;
+
+5. -----------------------------
+
+SELECT title FROM dvd JOIN offer USING(dvd_id) WHERE return_date IS NULL;
+
+6. -----------------------------
